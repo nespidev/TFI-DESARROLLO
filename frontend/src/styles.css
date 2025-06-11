@@ -1,0 +1,83 @@
+@import "primeicons/primeicons.css";
+
+html {
+  font-size: 1.1rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #cbe8f5 0%, #e0d7f5 100%);
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  color: #222; /* texto oscuro para buen contraste */
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: transparent;
+  color: #222;
+}
+
+a {
+  color: #6c63ff;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: #5149d6;
+  text-decoration: underline;
+}
+
+/* Inputs y selects suaves y legibles */
+input, select, textarea {
+  font-family: inherit;
+  font-size: 1rem;
+  padding: 0.5rem;
+  border: 1px solid #b0b8d1; /* borde más suave azul pastel */
+  border-radius: 8px;
+  background-color: #fefefe;
+  color: #222;
+  width: 100%;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: #6c63ff;
+  box-shadow: 0 0 6px rgba(108, 99, 255, 0.5);
+  outline: none;
+}
+
+/* Botones */
+button {
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 8px;
+  background-color: #6c63ff;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 10px rgba(108, 99, 255, 0.4);
+}
+
+button:hover {
+  background-color: #5149d6;
+  box-shadow: 0 6px 14px rgba(81, 73, 214, 0.6);
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  html {
+    font-size: 1rem;
+  }
+}

@@ -1,0 +1,82 @@
+<h2>Crear Encuesta</h2>
+
+<label for="correoCreador">Correo del Creador:</label>
+<input id="correoCreador" type="email" [(ngModel)]="correoCreador" />
+
+<br /><br />
+<label for="nombreEncuesta">Nombre de la Encuesta:</label>
+<input id="nombreEncuesta" [(ngModel)]="encuestaNombre" />
+
+<br /><br />
+
+<div *ngFor="let pregunta of preguntas; let i = index" style="margin-top: 15px; padding: 10px; border: 1px solid #ccc;">
+  <h4>Pregunta {{ i + 1 }}</h4> 
+  
+  <label>Texto:</label>
+  <input [(ngModel)]="pregunta.texto" />
+  
+  <label>Tipo de Respuesta:</label>
+  <select [(ngModel)]="pregunta.tipo">
+    <option *ngFor="let tipo of tiposRespuesta" [value]="tipo.tipo">
+      {{ tipo.presentacion }}
+    </option>
+  </select>
+
+  <div *ngIf="pregunta.tipo === 'NUMERICA'">
+    <label>Mínimo:</label>
+    <input type="number" [(ngModel)]="pregunta.minimo" />
+
+    <label>Máximo:</label>
+    <input type="number" [(ngModel)]="pregunta.maximo" />
+  </div>
+
+  <div *ngIf="pregunta.tipo === 'VERDADERO_FALSO'">
+    <p>Opciones:</p>
+    <ul>
+      <li>Verdadero</li>
+      <li>Falso</li>
+    </ul>
+  </div>
+
+  <div *ngIf="pregunta.tipo !== 'ABIERTA' && pregunta.tipo !== 'VERDADERO_FALSO' && pregunta.tipo !== 'NUMERICA'">
+    <button (click)="agregarOpcion(i)">Agregar Opción</button>
+    <div *ngFor="let opcion of pregunta.opciones; let j = index">
+      <label>Opción {{ j + 1 }}:</label>
+      <input [(ngModel)]="opcion.texto" />
+    </div>
+  </div>
+</div>
+
+<br /><br />
+
+<label for="categoria">Categoría:</label>
+<select id="categoria" [(ngModel)]="categoria">
+  <option value="" disabled selected>-- Selecciona una categoría --</option>
+  <option *ngFor="let cat of categorias" [value]="cat">{{ cat }}</option>
+</select>
+
+<br /><br />
+
+<label>
+  <input type="checkbox" [(ngModel)]="encuestaPublica" />
+  ¿La encuesta es pública?
+</label>
+
+<br /><br />
+
+<label for="fechaVencimiento">Fecha de vencimiento:</label>
+<input id="fechaVencimiento" type="date" [(ngModel)]="fechaVencimiento" />
+
+<br /><br />
+
+<button (click)="agregarPregunta()" style="margin-top: 15px;">Agregar Pregunta</button>
+
+<button (click)="enviarEncuesta()" style="margin-top: 15px;">Enviar Encuesta</button>
+
+<p *ngIf="mensaje" style="color: green; margin-top: 10px;">{{ mensaje }}</p>
+
+<div *ngIf="enlaceParticipacion" style="margin-top: 20px;">
+  <p><strong>🔗 Enlace para compartir:</strong></p>
+  <input [value]="enlaceParticipacion" readonly style="width: 100%;" />
+  <button (click)="copiarEnlace()">📋 Copiar enlace</button>
+</div>

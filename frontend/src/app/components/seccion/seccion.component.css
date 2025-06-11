@@ -1,0 +1,34 @@
+ul li {
+  font-size: 1.1rem;
+  color: #34495e;
+  margin: 1rem 0;
+  font-weight: 500;
+  position: relative;
+  padding-left: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: color 0.3s ease;
+}
+
+ul li:hover {
+  color: #2980b9;
+}
+
+button.respond-btn {
+  font-weight: 600;
+  font-size: 1rem;
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  color: #fff;
+  background: #2ecc71;
+  border: none;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+button.respond-btn:hover {
+  background: #27ae60;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}

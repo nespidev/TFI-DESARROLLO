@@ -1,0 +1,90 @@
+<div class="participar-container" *ngIf="!cargando && encuesta && !encuestaRespondida">
+  <h2>{{ encuesta.nombre }}</h2>
+
+  <form (ngSubmit)="enviarRespuestas()">
+    <div *ngFor="let pregunta of encuesta.preguntas">
+      <label>{{ pregunta.numero }}. {{ pregunta.texto }}</label>
+
+      <!-- ABIERTA -->
+      <div *ngIf="pregunta.tipo === 'ABIERTA'">
+        <input [(ngModel)]="respuestas[pregunta.numero]" name="pregunta-{{pregunta.numero}}" />
+      </div>
+
+      <!-- SELECCIÓN SIMPLE -->
+      <div *ngIf="pregunta.tipo === 'OPCION_MULTIPLE_SELECCION_SIMPLE'">
+        <div *ngFor="let opcion of pregunta.opciones">
+          <input
+            type="radio"
+            [name]="'pregunta-' + pregunta.numero"
+            [value]="opcion.texto"
+            [(ngModel)]="respuestas[pregunta.numero]"
+          />
+          {{ opcion.texto }}
+        </div>
+      </div>
+
+      <!-- SELECCIÓN MÚLTIPLE -->
+      <div *ngIf="pregunta.tipo === 'OPCION_MULTIPLE_SELECCION_MULTIPLE'">
+        <div *ngFor="let opcion of pregunta.opciones">
+          <input
+            type="checkbox"
+            (change)="onCheckboxChange(pregunta.numero, opcion.texto, $any($event.target).checked)"
+          />
+          {{ opcion.texto }}
+        </div>
+      </div>
+
+      <!-- VERDADERO / FALSO -->
+      <div *ngIf="pregunta.tipo === 'VERDADERO_FALSO'">
+        <label>
+          <input
+            type="radio"
+            [name]="'pregunta-' + pregunta.numero"
+            value="Verdadero"
+            [(ngModel)]="respuestas[pregunta.numero]"
+          />
+          Verdadero
+        </label>
+        <label>
+          <input
+            type="radio"
+            [name]="'pregunta-' + pregunta.numero"
+            value="Falso"
+            [(ngModel)]="respuestas[pregunta.numero]"
+          />
+          Falso
+        </label>
+      </div>
+
+      <!-- NUMÉRICA -->
+      <div *ngIf="pregunta.tipo === 'NUMERICA'">
+        <input
+          type="number"
+          [(ngModel)]="respuestas[pregunta.numero]"
+          [min]="pregunta.minimo ?? 1"
+          [max]="pregunta.maximo ?? 10"
+          name="pregunta-{{pregunta.numero}}"
+        />
+      </div>
+
+      <hr />
+    </div>
+
+    <button type="submit">Enviar respuestas</button>
+  </form>
+
+  <div *ngIf="enviando" style="color: blue; margin-top: 1rem;">
+    ⏳ Enviando respuestas...
+  </div>
+
+  <div *ngIf="mensaje && !encuestaRespondida" style="margin-top: 1rem;">
+    {{ mensaje }}
+  </div>
+</div>
+
+<!-- GRACIAS POR PARTICIPAR -->
+<div class="participar-container" *ngIf="encuestaRespondida">
+  <h2>🎉 ¡Gracias por participar!</h2>
+  <p>Tu respuesta ha sido registrada con éxito.</p>
+  <button (click)="volverInicio()">Volver al inicio</button>
+</div>

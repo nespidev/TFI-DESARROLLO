@@ -1,0 +1,21 @@
+:host(.error) {
+  color: #e04e42;
+  background-color: #ffebe6;
+  border: 1px solid #e04e42;
+  padding: 0.8rem 1.2rem;
+  margin: 0.3rem 0;
+  font-weight: 600;
+  font-size: 1rem;
+  text-align: center;
+  display: block;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  user-select: none;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(224, 78, 66, 0.2);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+:host(.error):hover {
+  background-color: #ffd2cb;
+  box-shadow: 0 4px 10px rgba(224, 78, 66, 0.3);
+}

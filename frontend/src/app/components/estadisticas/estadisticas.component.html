@@ -1,0 +1,27 @@
+<h2>Estadísticas de la Encuesta</h2>
+
+<div *ngIf="error" style="color:red;">{{ error }}</div>
+
+<div *ngIf="estadisticas; else cargando">
+  <p>Total de respuestas: {{ estadisticas.totalRespuestas }}</p>
+  <ul>
+    <li *ngFor="let p of estadisticas.respuestasPorPregunta">
+      <strong>{{ p.textoPregunta }}:</strong> {{ p.totalRespuestas }} respuestas
+    </li>
+  </ul>
+
+  <ul>
+    <li *ngFor="let opcion of estadisticas.porcentajePorOpcion">
+      <strong>{{ opcion.textoOpcion }}:</strong> {{ opcion.porcentaje | number: '1.0-2' }}%
+    </li>
+  </ul>
+
+  <ul>
+    <li *ngFor="let minuto of estadisticas.respuestasPorMinuto">
+      <strong>{{ minuto.minuto | date: 'HH:mm' }}:</strong> {{ minuto.total }} respuestas
+    </li>
+  </ul>
+</div>
+<ng-template #cargando>
+  <p>Cargando estadísticas...</p>
+</ng-template>

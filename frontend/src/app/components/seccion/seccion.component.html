@@ -1,0 +1,27 @@
+<h2>Listado de Encuestas por Categoría</h2>
+
+<div *ngIf="error" style="color:red;">{{ error }}</div>
+<div *ngIf="cargando">Cargando encuestas...</div>
+
+<div *ngIf="!cargando && !error">
+  <div *ngFor="let categoria of encuestasPorCategoria | keyvalue">
+    <h3>{{ categoria.key }}</h3>
+    <ul>
+      <li *ngFor="let encuesta of categoria.value" style="margin-bottom: 1rem;">
+        <strong>{{ encuesta.nombre }}</strong>
+
+        <span *ngIf="encuesta.codigoRespuesta">
+          <!-- Solo encuestas públicas -->
+          <button (click)="responderEncuesta(encuesta)">Responder</button>
+        </span>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<!-- Acciones globales -->
+<div style="margin-top: 2rem;">
+  <h3>Análisis Global</h3>
+  <button (click)="verEstadisticasGlobales()">📊 Ver Estadísticas Globales</button>
+  <button (click)="exportarCSVGlobal()">📄 Exportar CSV Global</button>
+</div>
