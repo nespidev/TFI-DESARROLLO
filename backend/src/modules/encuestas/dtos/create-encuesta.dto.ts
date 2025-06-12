@@ -1,5 +1,16 @@
 import { Type } from 'class-transformer';
-import {ArrayMinSize,ArrayNotEmpty,IsArray,IsBoolean,IsDateString,IsEmail,IsNotEmpty,IsOptional,IsString,ValidateNested,} from 'class-validator';
+import {
+  ArrayMinSize,
+  ArrayNotEmpty,
+  IsArray,
+  IsBoolean,
+  IsDateString,
+  IsEmail,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  ValidateNested,
+} from 'class-validator';
 import { CreatePreguntaDTO } from './create-pregunta.dto';
 import { ApiProperty } from '@nestjs/swagger';
 

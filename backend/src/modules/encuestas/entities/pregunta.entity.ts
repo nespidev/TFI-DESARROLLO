@@ -1,4 +1,11 @@
-import {Entity,Column,PrimaryGeneratedColumn,ManyToOne,OneToMany,JoinColumn,} from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  OneToMany,
+  JoinColumn,
+} from 'typeorm';
 import { Encuesta } from './encuesta.entity';
 import { Opcion } from './opcion.entity';
 import { RespuestaDetalle } from './respuesta-detalle.entity';

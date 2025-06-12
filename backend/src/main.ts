@@ -2,7 +2,11 @@ import { NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
 import helmet from 'helmet';
 import { ConfigService } from '@nestjs/config';
-import {ClassSerializerInterceptor,ValidationPipe,VersioningType,} from '@nestjs/common';
+import {
+  ClassSerializerInterceptor,
+  ValidationPipe,
+  VersioningType,
+} from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
@@ -32,14 +36,15 @@ async function bootstrap() {
 
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
 
-
   app.enableCors({
     origin: 'http://localhost:4200',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true,
   });
 
-  const swaggerHabilitado: boolean = configService.get('swaggerHabilitado') as boolean;
+  const swaggerHabilitado: boolean = configService.get(
+    'swaggerHabilitado',
+  ) as boolean;
   if (swaggerHabilitado) {
     const config = new DocumentBuilder()
       .setTitle('Encuestas')

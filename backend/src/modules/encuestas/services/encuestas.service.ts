@@ -1,4 +1,8 @@
-import {BadRequestException,Injectable,NotFoundException,} from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { v4 as uuidv4 } from 'uuid';
@@ -62,7 +66,7 @@ export class EncuestasService {
   }
   async listarTodasEncuestas(): Promise<Encuesta[]> {
     return this.encuestasRepository.find({
-      relations: ['preguntas', 'preguntas.opciones'], 
+      relations: ['preguntas', 'preguntas.opciones'],
     });
   }
 
@@ -89,22 +93,22 @@ export class EncuestasService {
       .leftJoinAndSelect('encuesta.preguntas', 'pregunta')
       .leftJoinAndSelect('pregunta.opciones', 'preguntaOpcion')
       .where('encuesta.id = :id', { id });
-  
+
     if (tipo === CodigoTipoEnum.RESPUESTA) {
       query.andWhere('encuesta.codigo_respuesta = :codigo', { codigo });
     } else {
       query.andWhere('encuesta.codigo_resultados = :codigo', { codigo });
     }
-  
+
     query.orderBy('pregunta.numero', 'ASC');
     query.addOrderBy('preguntaOpcion.numero', 'ASC');
-  
+
     const encuesta = await query.getOne();
-  
+
     if (!encuesta) {
       throw new NotFoundException('Datos de encuesta no válidos');
     }
-  
+
     return encuesta;
   }
 
@@ -140,14 +144,14 @@ export class EncuestasService {
       const respuestas = await this.respuestaRepository.find({
         relations: ['detalles', 'detalles.pregunta', 'encuesta'],
       });
-  
+
       if (!respuestas || respuestas.length === 0) {
         console.log('No se encontraron respuestas globales');
         return [];
       }
-  
-      const datos = respuestas.flatMap(respuesta =>
-        respuesta.detalles.map(detalle => ({
+
+      const datos = respuestas.flatMap((respuesta) =>
+        respuesta.detalles.map((detalle) => ({
           idRespuesta: respuesta.id,
           fecha: respuesta.fechaCreacion,
           encuestaId: respuesta.encuesta.id,
@@ -156,20 +160,21 @@ export class EncuestasService {
           valor: detalle.texto_respuesta,
         })),
       );
-  
+
       return datos;
     } catch (error) {
       console.error('Error en obtenerRespuestasPlanasGlobales:', error);
-      throw error;  
+      throw error;
     }
   }
-  
 
   async guardarRespuestas(
     codigoRespuesta: string,
     respuestasDto: { idPregunta: string; valor: string }[],
   ) {
-    const encuesta = await this.encuestasRepository.findOneBy({ codigoRespuesta });
+    const encuesta = await this.encuestasRepository.findOneBy({
+      codigoRespuesta,
+    });
     if (!encuesta) {
       throw new NotFoundException('Encuesta no encontrada');
     }
@@ -177,9 +182,13 @@ export class EncuestasService {
     respuesta.encuesta = encuesta;
     await this.respuestaRepository.save(respuesta);
     for (const respDto of respuestasDto) {
-      const pregunta = await this.preguntaRepository.findOneBy({ id: respDto.idPregunta });
+      const pregunta = await this.preguntaRepository.findOneBy({
+        id: respDto.idPregunta,
+      });
       if (!pregunta) {
-        throw new NotFoundException(`Pregunta con id ${respDto.idPregunta} no encontrada`);
+        throw new NotFoundException(
+          `Pregunta con id ${respDto.idPregunta} no encontrada`,
+        );
       }
 
       const detalle = new RespuestaDetalle();
@@ -195,7 +204,7 @@ export class EncuestasService {
   async obtenerEstadisticasGenerales() {
     // Total respuestas en toda la base de datos
     const totalRespuestas = await this.respuestaRepository.count();
-  
+
     // Total respuestas por pregunta
     const respuestasPorPregunta = await this.respuestaDetalleRepository
       .createQueryBuilder('rd')
@@ -207,9 +216,10 @@ export class EncuestasService {
       .addGroupBy('p.texto')
       .orderBy('p.numero')
       .getRawMany();
-  
-    // Porcentaje por opción 
-    const totalRespuestasDetalle = await this.respuestaDetalleRepository.count();
+
+    // Porcentaje por opción
+    const totalRespuestasDetalle =
+      await this.respuestaDetalleRepository.count();
     const porcentajePorOpcion = await this.respuestaDetalleRepository
       .createQueryBuilder('rd')
       .select('o.id', 'opcionId')
@@ -221,7 +231,7 @@ export class EncuestasService {
       .groupBy('o.id')
       .orderBy('o.id')
       .getRawMany();
-  
+
     // Respuestas por minuto
     const respuestasPorMinuto = await this.respuestaRepository
       .createQueryBuilder('r')
@@ -230,7 +240,7 @@ export class EncuestasService {
       .groupBy('minuto')
       .orderBy('minuto')
       .getRawMany();
-  
+
     return {
       totalRespuestas,
       respuestasPorPregunta,
@@ -238,4 +248,4 @@ export class EncuestasService {
       respuestasPorMinuto,
     };
   }
-}  
+}

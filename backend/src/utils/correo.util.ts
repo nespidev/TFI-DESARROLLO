@@ -1,13 +1,18 @@
 import * as nodemailer from 'nodemailer';
 import * as QRCode from 'qrcode';
 
-export async function enviarCorreoCreacion(destinatario: string, enlace: string) {
+export async function enviarCorreoCreacion(
+  destinatario: string,
+  enlace: string,
+) {
   try {
     const mailUser = process.env.MAIL_USER;
     const mailPass = process.env.MAIL_PASS;
 
     if (!mailUser || !mailPass) {
-      throw new Error('Faltan credenciales MAIL_USER o MAIL_PASS en las variables de entorno');
+      throw new Error(
+        'Faltan credenciales MAIL_USER o MAIL_PASS en las variables de entorno',
+      );
     }
 
     const qrBuffer = await QRCode.toBuffer(enlace);

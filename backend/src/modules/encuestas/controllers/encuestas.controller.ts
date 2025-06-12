@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Param, Post, Query, Res, NotFoundException } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Query,
+  Res,
+  NotFoundException,
+} from '@nestjs/common';
 import { Response } from 'express';
 import { EncuestasService } from '../services/encuestas.service';
 import { CreateEncuestaDTO } from '../dtos/create-encuesta.dto';
@@ -48,7 +57,10 @@ export class EncuestasController {
     const csv = generarCSV(datos);
 
     res.header('Content-Type', 'text/csv; charset=utf-8');
-    res.header('Content-Disposition', `attachment; filename="respuestas_globales.csv"`);
+    res.header(
+      'Content-Disposition',
+      `attachment; filename="respuestas_globales.csv"`,
+    );
     res.send(csv);
   }
 
@@ -65,7 +77,10 @@ export class EncuestasController {
     @Param('codigo') codigo: string,
     @Query('tipo') tipo: CodigoTipoEnum,
   ): Promise<Encuesta> {
-    const encuesta = await this.encuestasService.obtenerEncuestaPorCodigo(codigo, tipo);
+    const encuesta = await this.encuestasService.obtenerEncuestaPorCodigo(
+      codigo,
+      tipo,
+    );
     if (!encuesta) throw new NotFoundException('Encuesta no encontrada');
     return encuesta;
   }
@@ -75,7 +90,11 @@ export class EncuestasController {
     @Param('id') id: string,
     @Query() dto: ObtenerEncuestaDto,
   ): Promise<Encuesta> {
-    const encuesta = await this.encuestasService.obtenerEncuesta(id, dto.codigo, dto.tipo);
+    const encuesta = await this.encuestasService.obtenerEncuesta(
+      id,
+      dto.codigo,
+      dto.tipo,
+    );
     if (!encuesta) throw new NotFoundException('Encuesta no encontrada');
     return encuesta;
   }
@@ -85,10 +104,13 @@ export class EncuestasController {
     @Param('codigoRespuesta') codigoRespuesta: string,
     @Body() dto: CreateRespuestaDTO,
   ) {
-    const respuestasFormateadas = dto.respuestas.map(r => ({
+    const respuestasFormateadas = dto.respuestas.map((r) => ({
       idPregunta: r.preguntaId,
       valor: r.valor,
     }));
-    return this.encuestasService.guardarRespuestas(codigoRespuesta, respuestasFormateadas);
+    return this.encuestasService.guardarRespuestas(
+      codigoRespuesta,
+      respuestasFormateadas,
+    );
   }
 }

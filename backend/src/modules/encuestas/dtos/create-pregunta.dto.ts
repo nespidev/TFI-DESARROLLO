@@ -1,4 +1,12 @@
-import {IsArray,IsEnum,IsNotEmpty,IsNumber,IsOptional,IsString,ValidateNested,} from 'class-validator';
+import {
+  IsArray,
+  IsEnum,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+  ValidateNested,
+} from 'class-validator';
 import { TiposRespuestaEnum } from '../enums/tipos-respuesta.enum';
 import { Type } from 'class-transformer';
 import { CreateOpcionDTO } from './create-opcion.dto';

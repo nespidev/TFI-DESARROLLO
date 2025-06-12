@@ -2,7 +2,7 @@ export default () => ({
   port: parseInt(process.env.PORT || '3000', 10),
   prefix: process.env.GLOBAL_PREFIX || 'api',
   swaggerHabilitado: process.env.SWAGGER_HABILITADO === 'true',
-  frontendUrl: process.env.FRONTEND_URL || 'http://localhost:4200',  
+  frontendUrl: process.env.FRONTEND_URL || 'http://localhost:4200',
   database: {
     host: process.env.DB_HOST || 'localhost',
     port: parseInt(process.env.DB_PORT || '5432', 10),

@@ -1,4 +1,11 @@
-import {Entity,PrimaryGeneratedColumn,Column,ManyToOne,OneToMany,JoinColumn,} from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  OneToMany,
+  JoinColumn,
+} from 'typeorm';
 import { Encuesta } from './encuesta.entity';
 import { RespuestaDetalle } from './respuesta-detalle.entity';
 
@@ -12,10 +19,10 @@ export class Respuesta {
   })
   @JoinColumn({ name: 'id_encuesta' })
   encuesta: Encuesta;
-  
+
   @Column()
   fechaCreacion: Date;
-  
+
   @OneToMany(() => RespuestaDetalle, (detalle) => detalle.respuesta, {
     cascade: true,
   })
