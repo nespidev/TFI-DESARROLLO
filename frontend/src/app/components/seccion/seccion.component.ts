@@ -16,6 +16,7 @@ import { CommonModule } from '@angular/common';
 export class SeccionComponent implements OnInit {
   encuestas: EncuestaDTO[] = [];
   cargando = false;
+  fechaActual = new Date().toISOString();
   error = '';
   encuestasPorCategoria: { [categoria: string]: EncuestaDTO[] } = {};
 

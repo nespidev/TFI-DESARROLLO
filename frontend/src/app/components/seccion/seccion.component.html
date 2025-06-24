@@ -9,9 +9,7 @@
     <ul>
       <li *ngFor="let encuesta of categoria.value" style="margin-bottom: 1rem;">
         <strong>{{ encuesta.nombre }}</strong>
-
-        <span *ngIf="encuesta.codigoRespuesta">
-          <!-- Solo encuestas públicas -->
+        <span *ngIf="encuesta.esPublica && (!encuesta.fechaVencimiento || (encuesta.fechaVencimiento && (fechaActual <= encuesta.fechaVencimiento)))">
           <button (click)="responderEncuesta(encuesta)">Responder</button>
         </span>
       </li>

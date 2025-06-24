@@ -5,5 +5,7 @@ export interface EncuestaDTO {
   id: string;
   nombre: string;
   preguntas: PreguntaDTO[];
-  codigoRespuesta?: string; 
+  codigoRespuesta?: string;
+  fechaVencimiento: string;
+  esPublica: boolean;
 }
