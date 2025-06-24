@@ -7,12 +7,16 @@
   <div *ngFor="let categoria of encuestasPorCategoria | keyvalue">
     <h3>{{ categoria.key }}</h3>
     <ul>
-      <li *ngFor="let encuesta of categoria.value" style="margin-bottom: 1rem;">
-        <strong>{{ encuesta.nombre }}</strong>
-        <span *ngIf="encuesta.esPublica && (!encuesta.fechaVencimiento || (encuesta.fechaVencimiento && (fechaActual <= encuesta.fechaVencimiento)))">
-          <button (click)="responderEncuesta(encuesta)">Responder</button>
-        </span>
-      </li>
+        <li *ngFor="let encuesta of categoria.value" style="margin-bottom: 1rem;">
+          <strong>{{ encuesta.nombre }}</strong>
+          <ng-container *ngIf="encuesta.esPublica && (!encuesta.fechaVencimiento || (fechaActual <= encuesta.fechaVencimiento)); else mensajeNoDisponible">
+            <button (click)="responderEncuesta(encuesta)">Responder</button>
+          </ng-container>
+          <ng-template #mensajeNoDisponible>
+            <span *ngIf="!encuesta.esPublica">Encuesta privada</span>
+            <span *ngIf="encuesta.esPublica && encuesta.fechaVencimiento && (fechaActual > encuesta.fechaVencimiento)">Encuesta vencida</span>
+          </ng-template>
+        </li>
     </ul>
   </div>
 </div>
